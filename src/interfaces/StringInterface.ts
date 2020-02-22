@@ -3,5 +3,5 @@ declare interface String {
 }
 
 String.prototype.isEmpty = function() {
-  return this.length === 0 || !this.trim();
+  return !this || this.length === 0 || !this.trim();
 };

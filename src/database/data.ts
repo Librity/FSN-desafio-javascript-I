@@ -1,25 +1,27 @@
-const data: {
-  nome: string;
-  notas: number[];
-  cursos: { nomeDoCurso: string; dataMatricula: Date }[];
-  faltas: number;
-}[] = [
-  { nome: 'Henrique', notas: [], cursos: [], faltas: 5 },
-  { nome: 'Edson', notas: [], cursos: [], faltas: 2 },
-  { nome: 'Bruno', notas: [10, 9.8, 9.6], cursos: [], faltas: 0 },
-  {
-    nome: 'Guilherme',
-    notas: [10, 9.8, 9.6],
-    cursos: [{ nomeDoCurso: 'Full Stack', dataMatricula: new Date() }],
-    faltas: 0,
-  },
-  { nome: 'Carlos', notas: [], cursos: [], faltas: 0 },
-  {
-    nome: 'Lucca',
-    notas: [10, 9.8, 9.6],
-    cursos: [{ nomeDoCurso: 'UX', dataMatricula: new Date() }],
-    faltas: 0,
-  },
+import Student from '../models/Student';
+
+const data: Student[] = [
+  new Student({ name: 'Henrique', grades: [], courses: [], absences: 5 }),
+  new Student({ name: 'Edson', grades: [], courses: [], absences: 2 }),
+  new Student({
+    name: 'Bruno',
+    grades: [10, 9.8, 9.6],
+    courses: [],
+    absences: 0,
+  }),
+  new Student({
+    name: 'Guilherme',
+    grades: [10, 9.8, 9.6],
+    courses: [{ courseName: 'Full Stack', enrollmentDate: new Date() }],
+    absences: 0,
+  }),
+  new Student({ name: 'Carlos', grades: [], courses: [], absences: 0 }),
+  new Student({
+    name: 'Lucca',
+    grades: [10, 9.8, 9.6],
+    courses: [{ courseName: 'UX', enrollmentDate: new Date() }],
+    absences: 0,
+  }),
 ];
 
 export default data;
