@@ -21,6 +21,17 @@ class Student {
   applyAbsence() {
     this.absences++;
   }
+
+  includeGrade(grade: number) {
+    this.grades.push(grade);
+  }
+
+  gradeAvarage() {
+    return (
+      this.grades.reduce((increment, value) => increment + value) /
+      this.grades.length
+    );
+  }
 }
 
 export default Student;

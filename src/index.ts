@@ -26,3 +26,22 @@ console.log(divisor);
 student2 = StudentController.addAbsence(student2);
 console.log(generateStudentView(student2));
 console.log(divisor);
+
+const student3 = StudentController.addGrade(student2, -1.8);
+console.log(student3);
+const student4 = StudentController.addGrade(student2, 10.8);
+console.log(student4);
+student2 = StudentController.addGrade(student2, 1.8);
+console.log(generateStudentView(student2));
+console.log(divisor);
+
+console.log(StudentController.flunkOrPass(student2));
+student2 = StudentController.addGrade(student2, 10);
+student2 = StudentController.addGrade(student2, 8);
+student2 = StudentController.addGrade(student2, 9);
+console.log(StudentController.flunkOrPass(student2));
+student2 = StudentController.addAbsence(student2);
+student2 = StudentController.addAbsence(student2);
+student2 = StudentController.addAbsence(student2);
+console.log(StudentController.flunkOrPass(student2));
+console.log(divisor);

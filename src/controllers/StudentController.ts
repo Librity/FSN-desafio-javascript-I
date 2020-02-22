@@ -130,23 +130,61 @@ class StudentController {
   }
 
   // AKA aplicarNota
-  addGrade(targetStudent: Student) {
+  addGrade(targetStudent: Student, grade: number) {
     /**
      * Ao receber um aluno devidamente cadastrado em nossa lista. Você deverá
      * adicionar uma nota ao aluno na sua lista de notas. Você deverá dar um
      * feedback ao concluir a tarefa. Só poderá aplicar nota em aluno se o
      * mesmo tiver matriculado em um curso.
      */
+    try {
+      if (grade < 0 || grade > 10) throw 'Nota precisa ser entre 0 e 10.';
+
+      let match;
+
+      Students.forEach((student: Student) => {
+        if (student === targetStudent) return (match = student);
+      });
+
+      if (!match) throw 'Aluno nao existe.';
+
+      if (match.courses.isEmpty()) throw 'Aluno nao matriculado.';
+
+      match.includeGrade(grade);
+
+      return match;
+    } catch (err) {
+      return err;
+    }
   }
 
   // AKA aprovarAluno
-  flunkOrPass(student: Student) {
+  flunkOrPass(targetStudent: Student) {
     /**
      * Ao receber um aluno devidamente cadastrado em nossa lista, deverá dizer
      * se o mesmo está aprovado ou não. Os critérios de aprovação são: ter no
      * máximo 3 faltas e média 7 em notas. Só o aluno só poderá ser aprovado se
      * o mesmo tiver matriculado em um curso.
      */
+    try {
+      let match;
+
+      Students.forEach((student: Student) => {
+        if (student === targetStudent) return (match = student);
+      });
+
+      if (!match) throw 'Aluno nao existe.';
+
+      if (match.courses.isEmpty()) throw 'Aluno nao matriculado.';
+
+      if (match.absences > 3) return 'Aluno reprovado por faltas.';
+
+      if (match.gradeAvarage < 7) return 'Aluno reprovado por media.';
+
+      return 'Aluno aprovado.';
+    } catch (err) {
+      return err;
+    }
   }
 }
 

@@ -14,6 +14,13 @@ var Student = /** @class */ (function () {
     Student.prototype.applyAbsence = function () {
         this.absences++;
     };
+    Student.prototype.includeGrade = function (grade) {
+        this.grades.push(grade);
+    };
+    Student.prototype.gradeAvarage = function () {
+        return (this.grades.reduce(function (increment, value) { return increment + value; }) /
+            this.grades.length);
+    };
     return Student;
 }());
 exports["default"] = Student;
