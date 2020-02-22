@@ -168,7 +168,7 @@ var StudentController = /** @class */ (function () {
                 throw 'Aluno nao matriculado.';
             if (match_5.absences > 3)
                 return 'Aluno reprovado por faltas.';
-            if (match_5.gradeAvarage < 7)
+            if (match_5.gradeAvarage() < 7)
                 return 'Aluno reprovado por media.';
             return 'Aluno aprovado.';
         }

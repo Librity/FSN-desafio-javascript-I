@@ -179,7 +179,7 @@ class StudentController {
 
       if (match.absences > 3) return 'Aluno reprovado por faltas.';
 
-      if (match.gradeAvarage < 7) return 'Aluno reprovado por media.';
+      if (match.gradeAvarage() < 7) return 'Aluno reprovado por media.';
 
       return 'Aluno aprovado.';
     } catch (err) {
