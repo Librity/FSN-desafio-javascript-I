@@ -1,6 +1,13 @@
 export default interface StudentInterface {
   name: string;
   grades: number[];
-  courses: { courseName: string; enrollmentDate: Date }[];
+  courses: CourseInterface[];
   absences: number;
 }
+
+interface CourseInterface {
+  courseName: string;
+  enrollmentDate: Date;
+}
+
+export { CourseInterface };

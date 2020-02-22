@@ -1,7 +1,8 @@
 import Student from '../models/Student';
 import Students from '../database/data';
-import generateStudentView from '../views/StudentViews';
+import generateStudentView from '../views/StudentView';
 import '../interfaces/StringInterface';
+import '../interfaces/ArrayInterface';
 
 // TODO use yup for the validations
 // TODO create & implement a Student class, & have the database save the
@@ -9,6 +10,12 @@ import '../interfaces/StringInterface';
 class StudentController {
   // AKA adicionarAluno
   addStudent(name: string) {
+    /**
+     * Essa função irá receber uma *string* que é nome do aluno a ser criado.
+     * E seguindo o modelo de aluno, o mesmo deverá ser inserido na lista de
+     * alunos. A função deve devolver um feedback de sucesso, caso o aluno seja
+     * inserido corretamente.
+     */
     try {
       if (name.isEmpty()) throw 'Nome do aluno nao pode ser vazio.';
 
@@ -69,27 +76,61 @@ class StudentController {
   }
 
   // AKA matricularAluno
-  enrollStudent(student: Student, courseName: string) {
+  enrollStudent(targetStudent: Student, courseName: string) {
     /**
      * Essa funcionalidade irá permitir, cadastrar um aluno em um curso.
      * Essa função só poderá ser executada em um aluno já devidamente cadastrado
      * no sistema, e deverá armazenar a data atual no momento da matricula.
      * Lembre-se de exibir o feedback para o usuário.
      */
+    try {
+      if (courseName.isEmpty()) throw 'Nome do aluno nao pode ser vazio.';
+
+      let match;
+
+      Students.forEach((student: Student) => {
+        if (student === targetStudent) return (match = student);
+      });
+
+      if (!match) throw 'Aluno nao existe.';
+
+      match.courses.push({ courseName, enrollmentDate: new Date() });
+
+      return match;
+    } catch (err) {
+      return err;
+    }
   }
 
   // AKA aplicarFalta
-  addAbsence(student: Student) {
+  addAbsence(targetStudent: Student) {
     /**
      * Ao receber um aluno devidamente cadastrado em nossa lista. Você deverá
      * incrementar uma falta ao aluno. Você deverá dar um feedback ao concluir
      * a tarefa. Só poderá aplicar falta em aluno se o mesmo tiver matriculado
      * em um curso.
      */
+    try {
+      let match;
+
+      Students.forEach((student: Student) => {
+        if (student === targetStudent) return (match = student);
+      });
+
+      if (!match) throw 'Aluno nao existe.';
+
+      if (match.courses.isEmpty()) throw 'Aluno nao matriculado.';
+
+      match.applyAbsence();
+
+      return match;
+    } catch (err) {
+      return err;
+    }
   }
 
   // AKA aplicarNota
-  addGrade(student: Student) {
+  addGrade(targetStudent: Student) {
     /**
      * Ao receber um aluno devidamente cadastrado em nossa lista. Você deverá
      * adicionar uma nota ao aluno na sua lista de notas. Você deverá dar um

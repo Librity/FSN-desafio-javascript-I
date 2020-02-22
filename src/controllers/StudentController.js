@@ -2,8 +2,9 @@
 exports.__esModule = true;
 var Student_1 = require("../models/Student");
 var data_1 = require("../database/data");
-var StudentViews_1 = require("../views/StudentViews");
+var StudentView_1 = require("../views/StudentView");
 require("../interfaces/StringInterface");
+require("../interfaces/ArrayInterface");
 // TODO use yup for the validations
 // TODO create & implement a Student class, & have the database save the
 var StudentController = /** @class */ (function () {
@@ -11,6 +12,12 @@ var StudentController = /** @class */ (function () {
     }
     // AKA adicionarAluno
     StudentController.prototype.addStudent = function (name) {
+        /**
+         * Essa função irá receber uma *string* que é nome do aluno a ser criado.
+         * E seguindo o modelo de aluno, o mesmo deverá ser inserido na lista de
+         * alunos. A função deve devolver um feedback de sucesso, caso o aluno seja
+         * inserido corretamente.
+         */
         try {
             if (name.isEmpty())
                 throw 'Nome do aluno nao pode ser vazio.';
@@ -36,7 +43,7 @@ var StudentController = /** @class */ (function () {
          */
         var studentsList = '';
         data_1["default"].forEach(function (student) {
-            studentsList += StudentViews_1["default"](student);
+            studentsList += StudentView_1["default"](student);
         });
         return studentsList;
     };
@@ -65,25 +72,57 @@ var StudentController = /** @class */ (function () {
         }
     };
     // AKA matricularAluno
-    StudentController.prototype.enrollStudent = function (student, courseName) {
+    StudentController.prototype.enrollStudent = function (targetStudent, courseName) {
         /**
          * Essa funcionalidade irá permitir, cadastrar um aluno em um curso.
          * Essa função só poderá ser executada em um aluno já devidamente cadastrado
          * no sistema, e deverá armazenar a data atual no momento da matricula.
          * Lembre-se de exibir o feedback para o usuário.
          */
+        try {
+            if (courseName.isEmpty())
+                throw 'Nome do aluno nao pode ser vazio.';
+            var match_2;
+            data_1["default"].forEach(function (student) {
+                if (student === targetStudent)
+                    return (match_2 = student);
+            });
+            if (!match_2)
+                throw 'Aluno nao existe.';
+            match_2.courses.push({ courseName: courseName, enrollmentDate: new Date() });
+            return match_2;
+        }
+        catch (err) {
+            return err;
+        }
     };
     // AKA aplicarFalta
-    StudentController.prototype.addAbsence = function (student) {
+    StudentController.prototype.addAbsence = function (targetStudent) {
         /**
          * Ao receber um aluno devidamente cadastrado em nossa lista. Você deverá
          * incrementar uma falta ao aluno. Você deverá dar um feedback ao concluir
          * a tarefa. Só poderá aplicar falta em aluno se o mesmo tiver matriculado
          * em um curso.
          */
+        try {
+            var match_3;
+            data_1["default"].forEach(function (student) {
+                if (student === targetStudent)
+                    return (match_3 = student);
+            });
+            if (!match_3)
+                throw 'Aluno nao existe.';
+            if (match_3.courses.isEmpty())
+                throw 'Aluno nao matriculado.';
+            match_3.applyAbsence();
+            return match_3;
+        }
+        catch (err) {
+            return err;
+        }
     };
     // AKA aplicarNota
-    StudentController.prototype.addGrade = function (student) {
+    StudentController.prototype.addGrade = function (targetStudent) {
         /**
          * Ao receber um aluno devidamente cadastrado em nossa lista. Você deverá
          * adicionar uma nota ao aluno na sua lista de notas. Você deverá dar um

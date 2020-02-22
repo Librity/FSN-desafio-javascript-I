@@ -1,8 +1,8 @@
 import StudentController from './controllers/StudentController';
-import generateStudentView from './views/StudentViews';
+import generateStudentView from './views/StudentView';
 
 const divisor = '-'.repeat(40);
-const greeting = `${divisor}\nSistema escolar inicializado.\n${divisor}`
+const greeting = `${divisor}\nSistema escolar inicializado.\n${divisor}`;
 
 console.log(greeting);
 console.log(StudentController.listStudents());
@@ -15,6 +15,14 @@ console.log(divisor);
 
 const student1 = StudentController.findStudent('');
 console.log(student1);
-const student2 = StudentController.findStudent('John');
+let student2 = StudentController.findStudent('John');
+console.log(generateStudentView(student2));
+console.log(divisor);
+
+student2 = StudentController.enrollStudent(student2, 'Typescript 101');
+console.log(generateStudentView(student2));
+console.log(divisor);
+
+student2 = StudentController.addAbsence(student2);
 console.log(generateStudentView(student2));
 console.log(divisor);

@@ -1,12 +1,12 @@
 {
   "scripts": {
-    "start": "ts-node src",
-    "build": "tsc src/index.ts && node src/index.js"
+    "start": "tsc src/index.ts && node src/index.js"
   },
   "devDependencies": {
     "@types/node": "^13.7.4",
-    "ts-node": "^8.6.2",
     "typescript": "^3.8.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "date-fns": "^2.9.0"
+  }
 }
