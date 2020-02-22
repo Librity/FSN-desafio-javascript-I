@@ -6,7 +6,6 @@ var StudentView_1 = require("../views/StudentView");
 require("../interfaces/StringInterface");
 require("../interfaces/ArrayInterface");
 // TODO use yup for the validations
-// TODO create & implement a Student class, & have the database save the
 var StudentController = /** @class */ (function () {
     function StudentController() {
     }

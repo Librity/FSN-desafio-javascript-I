@@ -7,6 +7,12 @@ O desafio consiste na criação de um sistema para atender o gerenciamento de um
 
 O sistema deverá ser elaborado utilizando a linguagem Javascript, se atentando aos padrões de desenvolvimento como, por exemplo, a utilização do camelCase. Todos os prints ou exibições deverão acontecer diretamente no console.
 
+## Para rodar
+
+```
+$ yarn && yarn start
+```
+
 ### Forma de entrega
 
 Você deverá fazer um fork desse projeto, e fazer o desenvolvimento dentro do mesmo. Após isso, deverá enviar para o professor o link do _SEU_ repositório. Se atente para enviar pelo meio de comunicação escolhido para a turma.

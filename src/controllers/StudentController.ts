@@ -5,7 +5,6 @@ import '../interfaces/StringInterface';
 import '../interfaces/ArrayInterface';
 
 // TODO use yup for the validations
-// TODO create & implement a Student class, & have the database save the
 
 class StudentController {
   // AKA adicionarAluno
@@ -94,7 +93,7 @@ class StudentController {
 
       if (!match) throw 'Aluno nao existe.';
 
-      match.courses.push({ courseName, enrollmentDate: new Date() });
+      match.addCourse({ courseName, enrollmentDate: new Date() });
 
       return match;
     } catch (err) {
