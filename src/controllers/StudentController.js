@@ -88,7 +88,7 @@ var StudentController = /** @class */ (function () {
             });
             if (!match_2)
                 throw 'Aluno nao existe.';
-            match_2.courses.push({ courseName: courseName, enrollmentDate: new Date() });
+            match_2.addCourse({ courseName: courseName, enrollmentDate: new Date() });
             return match_2;
         }
         catch (err) {
