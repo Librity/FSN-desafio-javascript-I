@@ -1,5 +1,5 @@
 import Student from '../models/Student';
-import StudentsORM from '../database/StudentsORM';
+import StudentORM from '../database/StudentORM';
 import StudentViews from '../views/StudentViews';
 import '../interfaces/StringInterface';
 
@@ -23,7 +23,7 @@ class StudentController {
         absences: 0,
       });
 
-      StudentsORM.addStudent(newStudent);
+      StudentORM.addStudent(newStudent);
     } catch (err) {
       return err;
     }
@@ -39,7 +39,7 @@ class StudentController {
      * exibidas em um formato amigável.
      */
 
-    return StudentViews.showStudents(StudentsORM.all());
+    return StudentViews.showStudents(StudentORM.all());
   }
 
   // AKA buscarAluno
@@ -53,7 +53,7 @@ class StudentController {
     try {
       if (name.isEmpty()) throw 'Nome do aluno nao pode ser vazio.';
 
-      let query = StudentsORM.findStudentByName(name);
+      let query = StudentORM.findByName(name);
 
       if (!query) throw 'Aluno nao encontrado.';
 
@@ -74,7 +74,7 @@ class StudentController {
     try {
       if (courseName.isEmpty()) throw 'Nome do aluno nao pode ser vazio.';
 
-      targetStudent = StudentsORM.findStudent(targetStudent);
+      targetStudent = StudentORM.find(targetStudent);
 
       if (!targetStudent) throw 'Aluno nao existe.';
 
@@ -95,7 +95,7 @@ class StudentController {
      * em um curso.
      */
     try {
-      targetStudent = StudentsORM.findStudent(targetStudent);
+      targetStudent = StudentORM.find(targetStudent);
 
       if (!targetStudent) throw 'Aluno nao existe.';
 
@@ -120,13 +120,13 @@ class StudentController {
     try {
       if (grade < 0 || grade > 10) throw 'Nota precisa ser entre 0 e 10.';
 
-      targetStudent = StudentsORM.findStudent(targetStudent);
+      targetStudent = StudentORM.find(targetStudent);
 
       if (!targetStudent) throw 'Aluno nao existe.';
 
       if (targetStudent.isNotEnrolled()) throw 'Aluno nao matriculado.';
 
-      targetStudent.includeGrade(grade);
+      targetStudent.saveGrade(grade);
 
       return targetStudent;
     } catch (err) {
@@ -143,20 +143,19 @@ class StudentController {
      * o mesmo tiver matriculado em um curso.
      */
     try {
-      targetStudent = StudentsORM.findStudent(targetStudent);
+      targetStudent = StudentORM.find(targetStudent);
 
       if (!targetStudent) throw 'Aluno nao existe.';
 
       if (targetStudent.isNotEnrolled()) throw 'Aluno nao matriculado.';
-
-      if (targetStudent.absences > 3) return 'Aluno reprovado por faltas.';
-
-      if (targetStudent.gradeAvarage() < 7) return 'Aluno reprovado por media.';
-
-      return 'Aluno aprovado.';
     } catch (err) {
       return err;
     }
+
+    if (targetStudent.absences > 3) return 'Aluno reprovado por faltas.';
+    if (targetStudent.gradeAvarage() < 7) return 'Aluno reprovado por media.';
+
+    return 'Aluno aprovado.';
   }
 }
 

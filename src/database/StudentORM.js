@@ -1,16 +1,16 @@
 "use strict";
 exports.__esModule = true;
 var studentData_1 = require("./data/studentData");
-var StudentsORM = /** @class */ (function () {
-    function StudentsORM() {
+var StudentORM = /** @class */ (function () {
+    function StudentORM() {
     }
-    StudentsORM.addStudent = function (student) {
+    StudentORM.addStudent = function (student) {
         studentData_1["default"].push(student);
     };
-    StudentsORM.all = function () {
+    StudentORM.all = function () {
         return studentData_1["default"];
     };
-    StudentsORM.findStudentByName = function (name) {
+    StudentORM.findByName = function (name) {
         var match;
         studentData_1["default"].forEach(function (student) {
             if (student.name.includes(name))
@@ -18,7 +18,7 @@ var StudentsORM = /** @class */ (function () {
         });
         return match;
     };
-    StudentsORM.findStudent = function (targetStudent) {
+    StudentORM.find = function (targetStudent) {
         var match;
         studentData_1["default"].forEach(function (student) {
             if (student === targetStudent)
@@ -26,6 +26,6 @@ var StudentsORM = /** @class */ (function () {
         });
         return match;
     };
-    return StudentsORM;
+    return StudentORM;
 }());
-exports["default"] = StudentsORM;
+exports["default"] = StudentORM;

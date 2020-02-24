@@ -23,7 +23,7 @@ class Student {
     return this.courses.isEmpty();
   }
 
-  includeGrade(grade: number) {
+  saveGrade(grade: number) {
     this.grades.push(grade);
   }
 

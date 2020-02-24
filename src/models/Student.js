@@ -15,7 +15,7 @@ var Student = /** @class */ (function () {
     Student.prototype.isNotEnrolled = function () {
         return this.courses.isEmpty();
     };
-    Student.prototype.includeGrade = function (grade) {
+    Student.prototype.saveGrade = function (grade) {
         this.grades.push(grade);
     };
     Student.prototype.hasNoGrades = function () {

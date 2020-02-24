@@ -1,7 +1,7 @@
 import studentData from './data/studentData';
 import Student from '../models/Student';
 
-class StudentsORM {
+class StudentORM {
   static addStudent(student: Student) {
     studentData.push(student);
   }
@@ -10,7 +10,7 @@ class StudentsORM {
     return studentData;
   }
 
-  static findStudentByName(name: string) {
+  static findByName(name: string) {
     let match: Student;
 
     studentData.forEach((student: Student) => {
@@ -20,7 +20,7 @@ class StudentsORM {
     return match;
   }
 
-  static findStudent(targetStudent: Student) {
+  static find(targetStudent: Student) {
     let match: Student;
 
     studentData.forEach((student: Student) => {
@@ -31,4 +31,4 @@ class StudentsORM {
   }
 }
 
-export default StudentsORM;
+export default StudentORM;

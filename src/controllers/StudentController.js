@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
 var Student_1 = require("../models/Student");
-var StudentsORM_1 = require("../database/StudentsORM");
+var StudentORM_1 = require("../database/StudentORM");
 var StudentViews_1 = require("../views/StudentViews");
 require("../interfaces/StringInterface");
 // TODO use yup for the validations
@@ -25,7 +25,7 @@ var StudentController = /** @class */ (function () {
                 courses: [],
                 absences: 0
             });
-            StudentsORM_1["default"].addStudent(newStudent);
+            StudentORM_1["default"].addStudent(newStudent);
         }
         catch (err) {
             return err;
@@ -39,7 +39,7 @@ var StudentController = /** @class */ (function () {
          * atualmente no sistema. Vale dizer que As informações deverão ser
          * exibidas em um formato amigável.
          */
-        return StudentViews_1["default"].showStudents(StudentsORM_1["default"].all());
+        return StudentViews_1["default"].showStudents(StudentORM_1["default"].all());
     };
     // AKA buscarAluno
     StudentController.prototype.findStudent = function (name) {
@@ -52,7 +52,7 @@ var StudentController = /** @class */ (function () {
         try {
             if (name.isEmpty())
                 throw 'Nome do aluno nao pode ser vazio.';
-            var query = StudentsORM_1["default"].findStudentByName(name);
+            var query = StudentORM_1["default"].findByName(name);
             if (!query)
                 throw 'Aluno nao encontrado.';
             return query;
@@ -72,7 +72,7 @@ var StudentController = /** @class */ (function () {
         try {
             if (courseName.isEmpty())
                 throw 'Nome do aluno nao pode ser vazio.';
-            targetStudent = StudentsORM_1["default"].findStudent(targetStudent);
+            targetStudent = StudentORM_1["default"].find(targetStudent);
             if (!targetStudent)
                 throw 'Aluno nao existe.';
             targetStudent.addCourse({ courseName: courseName, enrollmentDate: new Date() });
@@ -91,7 +91,7 @@ var StudentController = /** @class */ (function () {
          * em um curso.
          */
         try {
-            targetStudent = StudentsORM_1["default"].findStudent(targetStudent);
+            targetStudent = StudentORM_1["default"].find(targetStudent);
             if (!targetStudent)
                 throw 'Aluno nao existe.';
             if (targetStudent.isNotEnrolled())
@@ -114,12 +114,12 @@ var StudentController = /** @class */ (function () {
         try {
             if (grade < 0 || grade > 10)
                 throw 'Nota precisa ser entre 0 e 10.';
-            targetStudent = StudentsORM_1["default"].findStudent(targetStudent);
+            targetStudent = StudentORM_1["default"].find(targetStudent);
             if (!targetStudent)
                 throw 'Aluno nao existe.';
             if (targetStudent.isNotEnrolled())
                 throw 'Aluno nao matriculado.';
-            targetStudent.includeGrade(grade);
+            targetStudent.saveGrade(grade);
             return targetStudent;
         }
         catch (err) {
@@ -135,20 +135,20 @@ var StudentController = /** @class */ (function () {
          * o mesmo tiver matriculado em um curso.
          */
         try {
-            targetStudent = StudentsORM_1["default"].findStudent(targetStudent);
+            targetStudent = StudentORM_1["default"].find(targetStudent);
             if (!targetStudent)
                 throw 'Aluno nao existe.';
             if (targetStudent.isNotEnrolled())
                 throw 'Aluno nao matriculado.';
-            if (targetStudent.absences > 3)
-                return 'Aluno reprovado por faltas.';
-            if (targetStudent.gradeAvarage() < 7)
-                return 'Aluno reprovado por media.';
-            return 'Aluno aprovado.';
         }
         catch (err) {
             return err;
         }
+        if (targetStudent.absences > 3)
+            return 'Aluno reprovado por faltas.';
+        if (targetStudent.gradeAvarage() < 7)
+            return 'Aluno reprovado por media.';
+        return 'Aluno aprovado.';
     };
     return StudentController;
 }());
