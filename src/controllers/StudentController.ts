@@ -1,11 +1,9 @@
 import Student from '../models/Student';
-import Students from '../database/data';
-import generateStudentView from '../views/StudentView';
+import StudentsORM from '../database/StudentsORM';
+import StudentViews from '../views/StudentViews';
 import '../interfaces/StringInterface';
-import '../interfaces/ArrayInterface';
 
 // TODO use yup for the validations
-
 class StudentController {
   // AKA adicionarAluno
   addStudent(name: string) {
@@ -25,7 +23,7 @@ class StudentController {
         absences: 0,
       });
 
-      Students.push(newStudent);
+      StudentsORM.addStudent(newStudent);
     } catch (err) {
       return err;
     }
@@ -40,13 +38,8 @@ class StudentController {
      * atualmente no sistema. Vale dizer que As informações deverão ser
      * exibidas em um formato amigável.
      */
-    let studentsList = '';
 
-    Students.forEach((student: Student) => {
-      studentsList += generateStudentView(student);
-    });
-
-    return studentsList;
+    return StudentViews.showStudents(StudentsORM.all());
   }
 
   // AKA buscarAluno
@@ -60,15 +53,11 @@ class StudentController {
     try {
       if (name.isEmpty()) throw 'Nome do aluno nao pode ser vazio.';
 
-      let match;
+      let query = StudentsORM.findStudentByName(name);
 
-      Students.forEach((student: Student) => {
-        if (student.name.includes(name)) return (match = student);
-      });
+      if (!query) throw 'Aluno nao encontrado.';
 
-      if (!match) throw 'Aluno nao encontrado.';
-
-      return match;
+      return query;
     } catch (err) {
       return err;
     }
@@ -85,17 +74,13 @@ class StudentController {
     try {
       if (courseName.isEmpty()) throw 'Nome do aluno nao pode ser vazio.';
 
-      let match;
+      targetStudent = StudentsORM.findStudent(targetStudent);
 
-      Students.forEach((student: Student) => {
-        if (student === targetStudent) return (match = student);
-      });
+      if (!targetStudent) throw 'Aluno nao existe.';
 
-      if (!match) throw 'Aluno nao existe.';
+      targetStudent.addCourse({ courseName, enrollmentDate: new Date() });
 
-      match.addCourse({ courseName, enrollmentDate: new Date() });
-
-      return match;
+      return targetStudent;
     } catch (err) {
       return err;
     }
@@ -110,19 +95,15 @@ class StudentController {
      * em um curso.
      */
     try {
-      let match;
+      targetStudent = StudentsORM.findStudent(targetStudent);
 
-      Students.forEach((student: Student) => {
-        if (student === targetStudent) return (match = student);
-      });
+      if (!targetStudent) throw 'Aluno nao existe.';
 
-      if (!match) throw 'Aluno nao existe.';
+      if (targetStudent.isNotEnrolled()) throw 'Aluno nao matriculado.';
 
-      if (match.courses.isEmpty()) throw 'Aluno nao matriculado.';
+      targetStudent.applyAbsence();
 
-      match.applyAbsence();
-
-      return match;
+      return targetStudent;
     } catch (err) {
       return err;
     }
@@ -139,19 +120,15 @@ class StudentController {
     try {
       if (grade < 0 || grade > 10) throw 'Nota precisa ser entre 0 e 10.';
 
-      let match;
+      targetStudent = StudentsORM.findStudent(targetStudent);
 
-      Students.forEach((student: Student) => {
-        if (student === targetStudent) return (match = student);
-      });
+      if (!targetStudent) throw 'Aluno nao existe.';
 
-      if (!match) throw 'Aluno nao existe.';
+      if (targetStudent.isNotEnrolled()) throw 'Aluno nao matriculado.';
 
-      if (match.courses.isEmpty()) throw 'Aluno nao matriculado.';
+      targetStudent.includeGrade(grade);
 
-      match.includeGrade(grade);
-
-      return match;
+      return targetStudent;
     } catch (err) {
       return err;
     }
@@ -166,19 +143,15 @@ class StudentController {
      * o mesmo tiver matriculado em um curso.
      */
     try {
-      let match;
+      targetStudent = StudentsORM.findStudent(targetStudent);
 
-      Students.forEach((student: Student) => {
-        if (student === targetStudent) return (match = student);
-      });
+      if (!targetStudent) throw 'Aluno nao existe.';
 
-      if (!match) throw 'Aluno nao existe.';
+      if (targetStudent.isNotEnrolled()) throw 'Aluno nao matriculado.';
 
-      if (match.courses.isEmpty()) throw 'Aluno nao matriculado.';
+      if (targetStudent.absences > 3) return 'Aluno reprovado por faltas.';
 
-      if (match.absences > 3) return 'Aluno reprovado por faltas.';
-
-      if (match.gradeAvarage() < 7) return 'Aluno reprovado por media.';
+      if (targetStudent.gradeAvarage() < 7) return 'Aluno reprovado por media.';
 
       return 'Aluno aprovado.';
     } catch (err) {

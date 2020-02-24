@@ -3,11 +3,33 @@ import { ptBR } from 'date-fns/locale';
 
 import Student from '../models/Student';
 import '../interfaces/ArrayInterface';
-const tab = ' '.repeat(2);
 
-const generateStudentView = (student: Student) => {
-  const addGradesInfo = () => {
-    if (student.grades.isEmpty())
+const tab = ' '.repeat(2);
+let studentView: string;
+
+class StudentViews {
+  static showStudents(student: Student[]) {
+    student.forEach((student: Student) => {
+      studentView += StudentViews.showStudent(student);
+    });
+
+    return studentView;
+  }
+
+  static showStudent = (targetStudent: Student) => {
+    studentView = `Nome: ${targetStudent.name}\n`;
+
+    StudentViews.addGradesInfo(targetStudent);
+
+    StudentViews.addCoursesInfo(targetStudent);
+
+    studentView += tab + `Faltas: ${targetStudent.absences}\n`;
+
+    return studentView;
+  };
+
+  static addGradesInfo = (student: Student) => {
+    if (student.hasNoGrades())
       return (studentView += tab + 'Sem notas cadastradas.\n');
 
     studentView += tab + 'Notas: ';
@@ -21,8 +43,8 @@ const generateStudentView = (student: Student) => {
     studentView += '\n';
   };
 
-  const addCoursesInfo = () => {
-    if (student.courses.isEmpty())
+  static addCoursesInfo = (student: Student) => {
+    if (student.isNotEnrolled())
       return (studentView += tab + 'Sem cursos matriculados.\n');
 
     studentView += tab + 'Cursos:\n';
@@ -39,16 +61,6 @@ const generateStudentView = (student: Student) => {
       studentView += `, matriculado em ${formattedDate}.\n`;
     });
   };
+}
 
-  let studentView = `Nome: ${student.name}\n`;
-
-  addGradesInfo();
-
-  addCoursesInfo();
-
-  studentView += tab + `Faltas: ${student.absences}\n`;
-
-  return studentView;
-};
-
-export default generateStudentView;
+export default StudentViews;

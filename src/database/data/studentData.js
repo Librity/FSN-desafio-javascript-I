@@ -1,7 +1,7 @@
 "use strict";
 exports.__esModule = true;
-var Student_1 = require("../models/Student");
-var data = [
+var Student_1 = require("../../models/Student");
+var studentData = [
     new Student_1["default"]({ name: 'Henrique', grades: [], courses: [], absences: 5 }),
     new Student_1["default"]({ name: 'Edson', grades: [], courses: [], absences: 2 }),
     new Student_1["default"]({
@@ -24,4 +24,4 @@ var data = [
         absences: 0
     }),
 ];
-exports["default"] = data;
+exports["default"] = studentData;

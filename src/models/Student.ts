@@ -1,5 +1,6 @@
 import StudentInterface from '../interfaces/StudentInterface';
 import { CourseInterface } from '../interfaces/StudentInterface';
+import '../interfaces/ArrayInterface';
 
 class Student {
   public name: string;
@@ -18,12 +19,16 @@ class Student {
     this.courses.push(course);
   }
 
-  applyAbsence() {
-    this.absences++;
+  isNotEnrolled() {
+    return this.courses.isEmpty();
   }
 
   includeGrade(grade: number) {
     this.grades.push(grade);
+  }
+
+  hasNoGrades() {
+    return this.grades.isEmpty();
   }
 
   gradeAvarage() {
@@ -31,6 +36,10 @@ class Student {
       this.grades.reduce((increment, value) => increment + value) /
       this.grades.length
     );
+  }
+
+  applyAbsence() {
+    this.absences++;
   }
 }
 

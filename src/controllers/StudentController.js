@@ -1,10 +1,9 @@
 "use strict";
 exports.__esModule = true;
 var Student_1 = require("../models/Student");
-var data_1 = require("../database/data");
-var StudentView_1 = require("../views/StudentView");
+var StudentsORM_1 = require("../database/StudentsORM");
+var StudentViews_1 = require("../views/StudentViews");
 require("../interfaces/StringInterface");
-require("../interfaces/ArrayInterface");
 // TODO use yup for the validations
 var StudentController = /** @class */ (function () {
     function StudentController() {
@@ -26,7 +25,7 @@ var StudentController = /** @class */ (function () {
                 courses: [],
                 absences: 0
             });
-            data_1["default"].push(newStudent);
+            StudentsORM_1["default"].addStudent(newStudent);
         }
         catch (err) {
             return err;
@@ -40,11 +39,7 @@ var StudentController = /** @class */ (function () {
          * atualmente no sistema. Vale dizer que As informações deverão ser
          * exibidas em um formato amigável.
          */
-        var studentsList = '';
-        data_1["default"].forEach(function (student) {
-            studentsList += StudentView_1["default"](student);
-        });
-        return studentsList;
+        return StudentViews_1["default"].showStudents(StudentsORM_1["default"].all());
     };
     // AKA buscarAluno
     StudentController.prototype.findStudent = function (name) {
@@ -57,14 +52,10 @@ var StudentController = /** @class */ (function () {
         try {
             if (name.isEmpty())
                 throw 'Nome do aluno nao pode ser vazio.';
-            var match_1;
-            data_1["default"].forEach(function (student) {
-                if (student.name.includes(name))
-                    return (match_1 = student);
-            });
-            if (!match_1)
+            var query = StudentsORM_1["default"].findStudentByName(name);
+            if (!query)
                 throw 'Aluno nao encontrado.';
-            return match_1;
+            return query;
         }
         catch (err) {
             return err;
@@ -81,15 +72,11 @@ var StudentController = /** @class */ (function () {
         try {
             if (courseName.isEmpty())
                 throw 'Nome do aluno nao pode ser vazio.';
-            var match_2;
-            data_1["default"].forEach(function (student) {
-                if (student === targetStudent)
-                    return (match_2 = student);
-            });
-            if (!match_2)
+            targetStudent = StudentsORM_1["default"].findStudent(targetStudent);
+            if (!targetStudent)
                 throw 'Aluno nao existe.';
-            match_2.addCourse({ courseName: courseName, enrollmentDate: new Date() });
-            return match_2;
+            targetStudent.addCourse({ courseName: courseName, enrollmentDate: new Date() });
+            return targetStudent;
         }
         catch (err) {
             return err;
@@ -104,17 +91,13 @@ var StudentController = /** @class */ (function () {
          * em um curso.
          */
         try {
-            var match_3;
-            data_1["default"].forEach(function (student) {
-                if (student === targetStudent)
-                    return (match_3 = student);
-            });
-            if (!match_3)
+            targetStudent = StudentsORM_1["default"].findStudent(targetStudent);
+            if (!targetStudent)
                 throw 'Aluno nao existe.';
-            if (match_3.courses.isEmpty())
+            if (targetStudent.isNotEnrolled())
                 throw 'Aluno nao matriculado.';
-            match_3.applyAbsence();
-            return match_3;
+            targetStudent.applyAbsence();
+            return targetStudent;
         }
         catch (err) {
             return err;
@@ -131,17 +114,13 @@ var StudentController = /** @class */ (function () {
         try {
             if (grade < 0 || grade > 10)
                 throw 'Nota precisa ser entre 0 e 10.';
-            var match_4;
-            data_1["default"].forEach(function (student) {
-                if (student === targetStudent)
-                    return (match_4 = student);
-            });
-            if (!match_4)
+            targetStudent = StudentsORM_1["default"].findStudent(targetStudent);
+            if (!targetStudent)
                 throw 'Aluno nao existe.';
-            if (match_4.courses.isEmpty())
+            if (targetStudent.isNotEnrolled())
                 throw 'Aluno nao matriculado.';
-            match_4.includeGrade(grade);
-            return match_4;
+            targetStudent.includeGrade(grade);
+            return targetStudent;
         }
         catch (err) {
             return err;
@@ -156,18 +135,14 @@ var StudentController = /** @class */ (function () {
          * o mesmo tiver matriculado em um curso.
          */
         try {
-            var match_5;
-            data_1["default"].forEach(function (student) {
-                if (student === targetStudent)
-                    return (match_5 = student);
-            });
-            if (!match_5)
+            targetStudent = StudentsORM_1["default"].findStudent(targetStudent);
+            if (!targetStudent)
                 throw 'Aluno nao existe.';
-            if (match_5.courses.isEmpty())
+            if (targetStudent.isNotEnrolled())
                 throw 'Aluno nao matriculado.';
-            if (match_5.absences > 3)
+            if (targetStudent.absences > 3)
                 return 'Aluno reprovado por faltas.';
-            if (match_5.gradeAvarage() < 7)
+            if (targetStudent.gradeAvarage() < 7)
                 return 'Aluno reprovado por media.';
             return 'Aluno aprovado.';
         }

@@ -1,6 +1,6 @@
-import Student from '../models/Student';
+import Student from '../../models/Student';
 
-const data: Student[] = [
+const studentData: Student[] = [
   new Student({ name: 'Henrique', grades: [], courses: [], absences: 5 }),
   new Student({ name: 'Edson', grades: [], courses: [], absences: 2 }),
   new Student({
@@ -24,4 +24,4 @@ const data: Student[] = [
   }),
 ];
 
-export default data;
+export default studentData;
