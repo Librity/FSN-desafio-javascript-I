@@ -2,66 +2,75 @@ import { format } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
 import Student from '../models/Student';
+import { CourseInterface } from '../interfaces/StudentInterface';
 import '../interfaces/ArrayInterface';
 
 const tab = ' '.repeat(2);
-let studentView: string;
 
 class StudentViews {
-  static showStudents(targetStudents: Student[]) {
-    studentView = '';
+  static showStudents(targetStudents: Student[]): string {
+    let studentsList = '';
 
     targetStudents.forEach((student: Student) => {
-      studentView += StudentViews.showStudent(student);
+      studentsList += StudentViews.showStudent(student);
     });
 
-    return studentView;
+    return studentsList;
   }
 
-  static showStudent = (targetStudent: Student) => {
-    studentView = `Nome: ${targetStudent.name}\n`;
+  static showStudent = (targetStudent: Student): string => {
+    let studentList = '';
 
-    StudentViews.addGradesInfo(targetStudent);
+    studentList += StudentViews.addName(targetStudent);
+    studentList += StudentViews.addGrades(targetStudent);
+    studentList += StudentViews.addCourses(targetStudent);
+    studentList += StudentViews.addAbsences(targetStudent);
 
-    StudentViews.addCoursesInfo(targetStudent);
-
-    studentView += tab + `Faltas: ${targetStudent.absences}\n`;
-
-    return studentView;
+    return studentList;
   };
 
-  static addGradesInfo = (student: Student) => {
-    if (student.hasNoGrades())
-      return (studentView += tab + 'Sem notas cadastradas.\n');
+  static addName = (student: Student): string => {
+    return `Nome: ${student.name}\n`;
+  };
 
-    studentView += tab + 'Notas: ';
+  static addGrades = (student: Student): string => {
+    if (student.hasNoGrades()) return tab + 'Sem notas cadastradas.\n';
+
+    let gradesList = tab + 'Notas: ';
 
     student.grades.forEach((grade, index, array) => {
-      if (index + 1 === array.length) return (studentView += `${grade}`);
+      if (index + 1 === array.length) return (gradesList += `${grade}`);
 
-      studentView += `${grade}, `;
+      gradesList += `${grade}, `;
     });
 
-    studentView += '\n';
+    return (gradesList += '\n');
   };
 
-  static addCoursesInfo = (student: Student) => {
-    if (student.isNotEnrolled())
-      return (studentView += tab + 'Sem cursos matriculados.\n');
+  static addCourses = (student: Student): string => {
+    if (student.isNotEnrolled()) return tab + 'Sem cursos matriculados.\n';
 
-    studentView += tab + 'Cursos:\n';
+    let coursesList = tab + 'Cursos:\n';
 
     student.courses.forEach(course => {
-      studentView += tab + tab + course.courseName;
-
-      const formattedDate = format(
-        course.enrollmentDate,
-        "d 'de' MMMM',' yyyy",
-        { locale: ptBR }
-      );
-
-      studentView += `, matriculado em ${formattedDate}.\n`;
+      coursesList += StudentViews.addCourse(course);
     });
+
+    return coursesList;
+  };
+
+  static addCourse(course: CourseInterface): string {
+    let courseInfo = tab + tab + course.courseName;
+
+    const formattedDate = format(course.enrollmentDate, "d 'de' MMMM',' yyyy", {
+      locale: ptBR,
+    });
+
+    return (courseInfo += `, matriculado em ${formattedDate}.\n`);
+  }
+
+  static addAbsences = (student: Student): string => {
+    return tab + `Faltas: ${student.absences}\n`;
   };
 }
 

@@ -4,44 +4,56 @@ var date_fns_1 = require("date-fns");
 var locale_1 = require("date-fns/locale");
 require("../interfaces/ArrayInterface");
 var tab = ' '.repeat(2);
-var studentView;
 var StudentViews = /** @class */ (function () {
     function StudentViews() {
     }
     StudentViews.showStudents = function (targetStudents) {
-        studentView = '';
+        var studentsList = '';
         targetStudents.forEach(function (student) {
-            studentView += StudentViews.showStudent(student);
+            studentsList += StudentViews.showStudent(student);
         });
-        return studentView;
+        return studentsList;
+    };
+    StudentViews.addCourse = function (course) {
+        var courseInfo = tab + tab + course.courseName;
+        var formattedDate = date_fns_1.format(course.enrollmentDate, "d 'de' MMMM',' yyyy", {
+            locale: locale_1.ptBR
+        });
+        return (courseInfo += ", matriculado em " + formattedDate + ".\n");
     };
     StudentViews.showStudent = function (targetStudent) {
-        studentView = "Nome: " + targetStudent.name + "\n";
-        StudentViews.addGradesInfo(targetStudent);
-        StudentViews.addCoursesInfo(targetStudent);
-        studentView += tab + ("Faltas: " + targetStudent.absences + "\n");
-        return studentView;
+        var studentList = '';
+        studentList += StudentViews.addName(targetStudent);
+        studentList += StudentViews.addGrades(targetStudent);
+        studentList += StudentViews.addCourses(targetStudent);
+        studentList += StudentViews.addAbsences(targetStudent);
+        return studentList;
     };
-    StudentViews.addGradesInfo = function (student) {
+    StudentViews.addName = function (student) {
+        return "Nome: " + student.name + "\n";
+    };
+    StudentViews.addGrades = function (student) {
         if (student.hasNoGrades())
-            return (studentView += tab + 'Sem notas cadastradas.\n');
-        studentView += tab + 'Notas: ';
+            return tab + 'Sem notas cadastradas.\n';
+        var gradesList = tab + 'Notas: ';
         student.grades.forEach(function (grade, index, array) {
             if (index + 1 === array.length)
-                return (studentView += "" + grade);
-            studentView += grade + ", ";
+                return (gradesList += "" + grade);
+            gradesList += grade + ", ";
         });
-        studentView += '\n';
+        return (gradesList += '\n');
     };
-    StudentViews.addCoursesInfo = function (student) {
+    StudentViews.addCourses = function (student) {
         if (student.isNotEnrolled())
-            return (studentView += tab + 'Sem cursos matriculados.\n');
-        studentView += tab + 'Cursos:\n';
+            return tab + 'Sem cursos matriculados.\n';
+        var coursesList = tab + 'Cursos:\n';
         student.courses.forEach(function (course) {
-            studentView += tab + tab + course.courseName;
-            var formattedDate = date_fns_1.format(course.enrollmentDate, "d 'de' MMMM',' yyyy", { locale: locale_1.ptBR });
-            studentView += ", matriculado em " + formattedDate + ".\n";
+            coursesList += StudentViews.addCourse(course);
         });
+        return coursesList;
+    };
+    StudentViews.addAbsences = function (student) {
+        return tab + ("Faltas: " + student.absences + "\n");
     };
     return StudentViews;
 }());

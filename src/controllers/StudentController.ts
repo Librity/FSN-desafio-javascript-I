@@ -6,7 +6,7 @@ import '../interfaces/StringInterface';
 // TODO use yup for the validations
 class StudentController {
   // AKA adicionarAluno
-  addStudent(name: string) {
+  addStudent(name: string): string {
     /**
      * Essa função irá receber uma *string* que é nome do aluno a ser criado.
      * E seguindo o modelo de aluno, o mesmo deverá ser inserido na lista de
@@ -32,7 +32,7 @@ class StudentController {
   }
 
   // AKA listarAlunos
-  listStudents() {
+  listStudents(): string {
     /**
      * Com essa função o usuário poderá ver todos os alunos cadastrados
      * atualmente no sistema. Vale dizer que As informações deverão ser
@@ -43,7 +43,7 @@ class StudentController {
   }
 
   // AKA buscarAluno
-  findStudent(name: string) {
+  findStudent(name: string): Student {
     /**
      * Por meio dessa função, podemos pesquisar um aluno por nome na lista de
      * aluno. Ela deverá exibir um feedback, tanto para quando encontrar o
@@ -64,7 +64,7 @@ class StudentController {
   }
 
   // AKA matricularAluno
-  enrollStudent(targetStudent: Student, courseName: string) {
+  enrollStudent(targetStudent: Student, courseName: string): Student {
     /**
      * Essa funcionalidade irá permitir, cadastrar um aluno em um curso.
      * Essa função só poderá ser executada em um aluno já devidamente cadastrado
@@ -87,7 +87,7 @@ class StudentController {
   }
 
   // AKA aplicarFalta
-  addAbsence(targetStudent: Student) {
+  addAbsence(targetStudent: Student): Student {
     /**
      * Ao receber um aluno devidamente cadastrado em nossa lista. Você deverá
      * incrementar uma falta ao aluno. Você deverá dar um feedback ao concluir
@@ -110,7 +110,7 @@ class StudentController {
   }
 
   // AKA aplicarNota
-  addGrade(targetStudent: Student, grade: number) {
+  addGrade(targetStudent: Student, grade: number): Student {
     /**
      * Ao receber um aluno devidamente cadastrado em nossa lista. Você deverá
      * adicionar uma nota ao aluno na sua lista de notas. Você deverá dar um
@@ -135,7 +135,7 @@ class StudentController {
   }
 
   // AKA aprovarAluno
-  flunkOrPass(targetStudent: Student) {
+  flunkOrPass(targetStudent: Student): string {
     /**
      * Ao receber um aluno devidamente cadastrado em nossa lista, deverá dizer
      * se o mesmo está aprovado ou não. Os critérios de aprovação são: ter no
