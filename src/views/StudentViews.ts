@@ -8,8 +8,8 @@ const tab = ' '.repeat(2);
 let studentView: string;
 
 class StudentViews {
-  static showStudents(student: Student[]) {
-    student.forEach((student: Student) => {
+  static showStudents(students: Student[]) {
+    students.forEach((student: Student) => {
       studentView += StudentViews.showStudent(student);
     });
 
