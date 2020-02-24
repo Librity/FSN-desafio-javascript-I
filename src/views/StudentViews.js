@@ -8,8 +8,8 @@ var studentView;
 var StudentViews = /** @class */ (function () {
     function StudentViews() {
     }
-    StudentViews.showStudents = function (student) {
-        student.forEach(function (student) {
+    StudentViews.showStudents = function (students) {
+        students.forEach(function (student) {
             studentView += StudentViews.showStudent(student);
         });
         return studentView;
