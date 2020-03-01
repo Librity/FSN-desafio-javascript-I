@@ -29,11 +29,11 @@ class StudentViews {
     return studentList;
   };
 
-  static addName = (student: Student): string => {
+  private static addName = (student: Student): string => {
     return `Nome: ${student.name}\n`;
   };
 
-  static addGrades = (student: Student): string => {
+  private static addGrades = (student: Student): string => {
     if (student.hasNoGrades()) return tab + 'Sem notas cadastradas.\n';
 
     let gradesList = tab + 'Notas: ';
@@ -47,7 +47,7 @@ class StudentViews {
     return (gradesList += '\n');
   };
 
-  static addCourses = (student: Student): string => {
+  private static addCourses = (student: Student): string => {
     if (student.isNotEnrolled()) return tab + 'Sem cursos matriculados.\n';
 
     let coursesList = tab + 'Cursos:\n';
@@ -59,7 +59,7 @@ class StudentViews {
     return coursesList;
   };
 
-  static addCourse(course: CourseInterface): string {
+  private static addCourse(course: CourseInterface): string {
     let courseInfo = tab + tab + course.courseName;
 
     const formattedDate = format(course.enrollmentDate, "d 'de' MMMM',' yyyy", {
@@ -69,7 +69,7 @@ class StudentViews {
     return (courseInfo += `, matriculado em ${formattedDate}.\n`);
   }
 
-  static addAbsences = (student: Student): string => {
+  private static addAbsences = (student: Student): string => {
     return tab + `Faltas: ${student.absences}\n`;
   };
 }
