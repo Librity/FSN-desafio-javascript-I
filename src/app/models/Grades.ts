@@ -1,7 +1,12 @@
 import Sequelize, { Model } from 'sequelize';
 
+interface Grades extends Model {
+  associate: any;
+}
+
 class Grades extends Model {
   static init(sequelize) {
+    // @ts-ignore
     super.init(
       {
         value: Sequelize.INTEGER,

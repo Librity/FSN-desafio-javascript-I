@@ -1,7 +1,12 @@
 import Sequelize, { Model } from 'sequelize';
 
+interface Courses extends Model {
+  associate: any;
+}
+
 class Courses extends Model {
   static init(sequelize) {
+    // @ts-ignore
     super.init(
       {
         name: Sequelize.STRING,

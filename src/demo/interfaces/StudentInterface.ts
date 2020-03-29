@@ -5,9 +5,7 @@ export default interface StudentInterface {
   absences: number;
 }
 
-interface CourseInterface {
+export interface CourseInterface {
   courseName: string;
   enrollmentDate: Date;
 }
-
-export { CourseInterface };

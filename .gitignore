@@ -114,5 +114,5 @@ temp/
 package-lock.json
 yarn-error.log
 
-# Any javasript files
-*.js
+# Typescript build directory
+./dist
