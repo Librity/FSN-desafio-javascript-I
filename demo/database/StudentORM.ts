@@ -1,4 +1,4 @@
-import studentData from './data/studentData';
+import studentData from './seeds/studentData';
 import Student from '../models/Student';
 
 class StudentORM {

@@ -4,7 +4,7 @@ import StudentViews from '../views/StudentViews';
 import '../interfaces/StringInterface';
 
 class StudentController {
-  addStudent(name: string): string {
+  static addStudent(name: string): string {
     try {
       if (name.isEmpty()) throw 'Nome do aluno nao pode ser vazio.';
 
@@ -23,15 +23,15 @@ class StudentController {
     return `Aluno ${name} adicionado com sucesso`;
   }
 
-  listStudents(): string {
+  static listStudents(): string {
     return StudentViews.showStudents(StudentORM.all());
   }
 
-  findStudent(name: string): Student {
+  static findStudent(name: string): Student {
     try {
       if (name.isEmpty()) throw 'Nome do aluno nao pode ser vazio.';
 
-      let query = StudentORM.findByName(name);
+      const query = StudentORM.findByName(name);
 
       if (!query) throw 'Aluno nao encontrado.';
 
@@ -41,7 +41,7 @@ class StudentController {
     }
   }
 
-  enrollStudent(targetStudent: Student, courseName: string): Student {
+  static enrollStudent(targetStudent: Student, courseName: string): Student {
     try {
       if (courseName.isEmpty()) throw 'Nome do aluno nao pode ser vazio.';
 
@@ -57,7 +57,7 @@ class StudentController {
     }
   }
 
-  addAbsence(targetStudent: Student): Student {
+  static addAbsence(targetStudent: Student): Student {
     try {
       targetStudent = StudentORM.find(targetStudent);
 
@@ -73,7 +73,7 @@ class StudentController {
     }
   }
 
-  addGrade(targetStudent: Student, grade: number): Student {
+  static addGrade(targetStudent: Student, grade: number): Student {
     try {
       if (grade < 0 || grade > 10) throw 'Nota precisa ser entre 0 e 10.';
 
@@ -91,7 +91,7 @@ class StudentController {
     }
   }
 
-  flunkOrPass(targetStudent: Student): string {
+  static flunkOrPass(targetStudent: Student): string {
     try {
       targetStudent = StudentORM.find(targetStudent);
 
@@ -109,4 +109,4 @@ class StudentController {
   }
 }
 
-export default new StudentController();
+export default StudentController;

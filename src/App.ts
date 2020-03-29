@@ -1,5 +1,9 @@
-import express from "express";
-import routes from "./routes";
+import express from 'express';
+import 'express-async-errors';
+import cors from 'cors';
+import { errors } from 'celebrate';
+
+import routes from './routes';
 
 class App {
   constructor() {
@@ -12,13 +16,18 @@ class App {
   }
 
   config() {
-    this.server.use(express.static("public"));
+    this.server.use(express.json());
+    this.server.use(cors());
 
-    this.server.set("view engine", "ejs");
-    this.server.set("views", __dirname + "/views");
+    this.server.use(express.static('public'));
+
+    this.server.set('view engine', 'ejs');
+    this.server.set('views', __dirname + '/app/views');
   }
 
-  middlewares() {}
+  middlewares() {
+    this.server.use(errors());
+  }
 
   routes() {
     this.server.use(routes);
