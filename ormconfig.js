@@ -1,5 +1,5 @@
 module.exports = {
-  type: 'postgres',
+  type: process.env.DB_TYPE,
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
   username: process.env.DB_USER,
@@ -8,14 +8,22 @@ module.exports = {
     process.env.NODE_ENV === 'development'
       ? process.env.DB_NAME_DEV
       : process.env.DB_NAME_TEST,
-  synchronize: true,
-  logging: false,
-  entities: ['src/entity/**/*.ts'],
-  migrations: ['src/migration/**/*.ts'],
-  subscribers: ['src/subscriber/**/*.ts'],
+  synchronize:
+    process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
+      ? true
+      : false,
+  logging:
+    process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
+      ? false
+      : true,
+  entities: ['src/entities/**/*.ts'],
+  subscribers: ['src/subscribers/**/*.ts'],
+  migrations: ['src/database/migrations/**/*.ts'],
+  seeds: ['src/database/seeds/**/*.seed.ts'],
+  factories: ['src/database/factories/**/*.factory.ts'],
   cli: {
     entitiesDir: 'src/entity',
-    migrationsDir: 'src/migration',
     subscribersDir: 'src/subscriber',
+    migrationsDir: 'src/database/migration',
   },
 };

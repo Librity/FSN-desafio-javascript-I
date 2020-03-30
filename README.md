@@ -1,3 +1,7 @@
+# References
+
+[Initial structure with TypeORM and Express](https://github.com/andregardi/jwt-express-typeorm)
+
 # DH Fullstack - Desafio Javascript I
 
 - Tema: Sistema escolar
