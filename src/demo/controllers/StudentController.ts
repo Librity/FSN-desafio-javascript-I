@@ -45,13 +45,13 @@ class StudentController {
     try {
       if (courseName.isEmpty()) throw 'Nome do aluno nao pode ser vazio.';
 
-      targetStudent = StudentORM.find(targetStudent);
+      const result = StudentORM.find(targetStudent);
 
-      if (!targetStudent) throw 'Aluno nao existe.';
+      if (!result) throw 'Aluno nao existe.';
 
-      targetStudent.addCourse({ courseName, enrollmentDate: new Date() });
+      result.addCourse({ courseName, enrollmentDate: new Date() });
 
-      return targetStudent;
+      return result;
     } catch (err) {
       return err;
     }
@@ -59,15 +59,15 @@ class StudentController {
 
   static addAbsence(targetStudent: Student): Student {
     try {
-      targetStudent = StudentORM.find(targetStudent);
+      const result = StudentORM.find(targetStudent);
 
-      if (!targetStudent) throw 'Aluno nao existe.';
+      if (!result) throw 'Aluno nao existe.';
 
-      if (targetStudent.isNotEnrolled()) throw 'Aluno nao matriculado.';
+      if (result.isNotEnrolled()) throw 'Aluno nao matriculado.';
 
-      targetStudent.applyAbsence();
+      result.applyAbsence();
 
-      return targetStudent;
+      return result;
     } catch (err) {
       return err;
     }
@@ -77,33 +77,33 @@ class StudentController {
     try {
       if (grade < 0 || grade > 10) throw 'Nota precisa ser entre 0 e 10.';
 
-      targetStudent = StudentORM.find(targetStudent);
+      const result = StudentORM.find(targetStudent);
 
-      if (!targetStudent) throw 'Aluno nao existe.';
+      if (!result) throw 'Aluno nao existe.';
 
-      if (targetStudent.isNotEnrolled()) throw 'Aluno nao matriculado.';
+      if (result.isNotEnrolled()) throw 'Aluno nao matriculado.';
 
-      targetStudent.saveGrade(grade);
+      result.saveGrade(grade);
 
-      return targetStudent;
+      return result;
     } catch (err) {
       return err;
     }
   }
 
   static flunkOrPass(targetStudent: Student): string {
+    const result = StudentORM.find(targetStudent);
+
     try {
-      targetStudent = StudentORM.find(targetStudent);
+      if (!result) throw 'Aluno nao existe.';
 
-      if (!targetStudent) throw 'Aluno nao existe.';
-
-      if (targetStudent.isNotEnrolled()) throw 'Aluno nao matriculado.';
+      if (result.isNotEnrolled()) throw 'Aluno nao matriculado.';
     } catch (err) {
       return err;
     }
 
-    if (targetStudent.absences > 3) return 'Aluno reprovado por faltas.';
-    if (targetStudent.gradeAvarage() < 7) return 'Aluno reprovado por media.';
+    if (result.absences > 3) return 'Aluno reprovado por faltas.';
+    if (result.gradeAvarage() < 7) return 'Aluno reprovado por media.';
 
     return 'Aluno aprovado.';
   }
