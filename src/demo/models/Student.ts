@@ -15,30 +15,30 @@ class Student {
     this.absences = (object && object.absences) || 0;
   }
 
-  addCourse(course: CourseInterface): void {
+  public addCourse(course: CourseInterface): void {
     this.courses.push(course);
   }
 
-  isNotEnrolled(): boolean {
+  public isNotEnrolled(): boolean {
     return this.courses.isEmpty();
   }
 
-  saveGrade(grade: number): void {
+  public saveGrade(grade: number): void {
     this.grades.push(grade);
   }
 
-  hasNoGrades(): boolean {
+  public hasNoGrades(): boolean {
     return this.grades.isEmpty();
   }
 
-  gradeAvarage(): number {
+  public gradeAvarage(): number {
     return (
       this.grades.reduce((increment, value) => increment + value) /
       this.grades.length
     );
   }
 
-  applyAbsence(): void {
+  public applyAbsence(): void {
     this.absences++;
   }
 }

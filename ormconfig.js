@@ -16,14 +16,14 @@ module.exports = {
     process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
       ? false
       : true,
-  entities: ['src/entities/**/*.ts'],
-  subscribers: ['src/subscribers/**/*.ts'],
+  entities: ['src/app/entities/**/*.ts'],
+  subscribers: ['src/app/subscribers/**/*.ts'],
   migrations: ['src/database/migrations/**/*.ts'],
   seeds: ['src/database/seeds/**/*.seed.ts'],
   factories: ['src/database/factories/**/*.factory.ts'],
   cli: {
-    entitiesDir: 'src/entity',
-    subscribersDir: 'src/subscriber',
-    migrationsDir: 'src/database/migration',
+    entitiesDir: 'src/app/entities',
+    subscribersDir: 'src/app/subscribers',
+    migrationsDir: 'src/database/migrations',
   },
 };
