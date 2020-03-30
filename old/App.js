@@ -13,7 +13,6 @@ class App {
     this.config();
     this.middlewares();
     this.routes();
-    // this.exceptionHandler();
   }
 
   config() {
@@ -33,8 +32,6 @@ class App {
   routes() {
     this.server.use(routes);
   }
-
-  // exceptionHandler() {}
 }
 
 export default new App();

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-const routes: Router = Router();
+const routes = Router();
 
 routes.get('/', (req, res) => {
   res.render('main');

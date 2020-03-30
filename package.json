@@ -9,10 +9,10 @@
   "private": false,
   "scripts": {
     "demo": "tsc && node dist/demo/index.js",
-    "dev": "set debug=* && cross-env NODE_ENV=development ts-node-dev --respawn --transpileOnly ./src/index.ts",
+    "dev": "set debug=* && cross-env NODE_ENV=development ts-node-dev --respawn --transpileOnly ./src/server.ts",
     "test": "cross-env NODE_ENV=test jest",
     "tsc": "tsc",
-    "prod": "tsc && node ./dist/index.js",
+    "prod": "tsc && node ./dist/server.js",
     "migration:run": "ts-node ./node_modules/typeorm/cli.js migration:run",
     "seed": "ts-node ./node_modules/typeorm-seeding/dist/cli.js seed"
   },
