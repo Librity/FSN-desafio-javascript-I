@@ -7,8 +7,8 @@ import { User } from '../entities/User';
 import config from '../config/config';
 
 class AuthController {
-  static login = async (req: Request, res: Response) => {
-    let { username, password } = req.body;
+  public static login = async (req: Request, res: Response) => {
+    const { username, password } = req.body;
 
     if (!(username && password)) {
       res.status(400).send();
@@ -30,13 +30,13 @@ class AuthController {
     const token = jwt.sign(
       { userId: user.id, username: user.username },
       config.jwtSecret,
-      { expiresIn: '1h' },
+      { expiresIn: '1h' }
     );
 
     return res.send(token);
   };
 
-  static changePassword = async (req: Request, res: Response) => {
+  public static changePassword = async (req: Request, res: Response) => {
     const id = res.locals.jwtPayload.userId;
 
     const { oldPassword, newPassword } = req.body;

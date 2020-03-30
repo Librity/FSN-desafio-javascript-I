@@ -3,11 +3,14 @@ import * as jwt from 'jsonwebtoken';
 import config from '../config/config';
 
 export const checkJwt = (req: Request, res: Response, next: NextFunction) => {
-  const token = <string>req.headers['auth'];
+  const key = 'auth';
+
+  const token = req.headers[key] as string;
+
   let jwtPayload;
 
   try {
-    jwtPayload = <any>jwt.verify(token, config.jwtSecret);
+    jwtPayload = jwt.verify(token, config.jwtSecret) as any;
 
     res.locals.jwtPayload = jwtPayload;
   } catch (error) {

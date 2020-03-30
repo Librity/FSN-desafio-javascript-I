@@ -5,7 +5,7 @@ import { validate } from 'class-validator';
 import { User } from '../entities/User';
 
 class UserController {
-  static listAll = async (req: Request, res: Response) => {
+  public static listAll = async (req: Request, res: Response) => {
     const userRepository = getRepository(User);
 
     const users = await userRepository.find({
@@ -15,7 +15,7 @@ class UserController {
     return res.send(users);
   };
 
-  static getOneById = async (req: Request, res: Response) => {
+  public static getOneById = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const userRepository = getRepository(User);
@@ -31,10 +31,10 @@ class UserController {
     }
   };
 
-  static newUser = async (req: Request, res: Response) => {
-    let { username, password, role } = req.body;
+  public static newUser = async (req: Request, res: Response) => {
+    const { username, password, role } = req.body;
 
-    let user = new User();
+    const user = new User();
 
     user.username = username;
     user.password = password;
@@ -57,7 +57,7 @@ class UserController {
     return res.status(201).send('User created');
   };
 
-  static editUser = async (req: Request, res: Response) => {
+  public static editUser = async (req: Request, res: Response) => {
     const { id } = req.params;
 
     const { username, role } = req.body;
@@ -84,7 +84,7 @@ class UserController {
     return res.status(204).send();
   };
 
-  static deleteUser = async (req: Request, res: Response) => {
+  public static deleteUser = async (req: Request, res: Response) => {
     const id = req.params.id;
 
     const userRepository = getRepository(User);

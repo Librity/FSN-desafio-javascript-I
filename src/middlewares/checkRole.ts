@@ -3,7 +3,7 @@ import { getRepository } from 'typeorm';
 
 import { User } from '../entities/User';
 
-export const checkRole = (roles: Array<string>) => {
+export const checkRole = (roles: string[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     const id = res.locals.jwtPayload.userId;
 
