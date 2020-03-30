@@ -7,7 +7,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import { Min, Max, IsNotEmpty } from 'class-validator';
+import { Min, Max, IsNotEmpty, IsDecimal } from 'class-validator';
 import { Student } from '../../app/entities/Student';
 
 @Entity()
@@ -17,10 +17,11 @@ export class Grade {
   @IsNotEmpty()
   public id!: number;
 
-  @Column()
+  @Column({ type: 'float4' })
   @IsNotEmpty()
   @Min(0)
   @Max(10)
+  @IsDecimal()
   public value!: number;
 
   @ManyToOne((type) => Student, (student) => student.courses)

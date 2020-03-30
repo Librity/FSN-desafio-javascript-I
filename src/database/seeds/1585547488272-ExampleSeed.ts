@@ -2,7 +2,7 @@ import { Factory, Seeder } from 'typeorm-seeding';
 import { Connection } from 'typeorm';
 import { Student } from '../../app/entities/Student';
 
-export default class studentsSeed1585547488272 implements Seeder {
+export default class ExampleSeed1585547488272 implements Seeder {
   public async run(factory: Factory, connection: Connection): Promise<any> {
     await connection
       .createQueryBuilder()

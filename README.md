@@ -2,6 +2,21 @@
 
 [Initial structure with TypeORM and Express](https://github.com/andregardi/jwt-express-typeorm)
 
+Create a postges container:
+```bash
+$ docker run --name postgres -e POSTGRES_PASSWORD=password -p 5432:5432 -d -t postgres
+```
+
+initiate the server:
+```bash
+$ yarn dev
+```
+
+and run the initial seed:
+```bash
+$ yarn migration:run
+```
+
 # DH Fullstack - Desafio Javascript I
 
 - Tema: Sistema escolar

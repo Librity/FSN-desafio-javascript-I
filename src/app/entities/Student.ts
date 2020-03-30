@@ -25,7 +25,7 @@ export class Student {
 
   @Column()
   @IsNotEmpty()
-  public absences = 0;
+  public absences!: number;
 
   @OneToMany((type) => Course, (course: Course) => course.student)
   public courses!: Course[];
