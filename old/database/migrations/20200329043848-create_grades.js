@@ -1,6 +1,6 @@
 module.exports = {
-  up: (queryInterface: any, Sequelize: any) => {
-    return queryInterface.createTable('students', {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('grades', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -8,13 +8,15 @@ module.exports = {
         primaryKey: true,
       },
 
-      name: {
-        type: Sequelize.STRING,
+      value: {
+        type: Sequelize.INTEGER,
         allowNull: false,
       },
-      absences: {
+      student_id: {
         type: Sequelize.INTEGER,
-        defaultValue: 0,
+        references: { model: 'students', key: 'id' },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL',
         allowNull: false,
       },
 
@@ -29,7 +31,7 @@ module.exports = {
     });
   },
 
-  down: (queryInterface: any) => {
-    return queryInterface.dropTable('students');
+  down: (queryInterface) => {
+    return queryInterface.dropTable('grades');
   },
 };

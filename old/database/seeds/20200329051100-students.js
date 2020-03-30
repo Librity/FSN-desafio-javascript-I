@@ -1,5 +1,5 @@
 module.exports = {
-  up: (QueryInterface: any) => {
+  up: (QueryInterface) => {
     return QueryInterface.bulkInsert(
       'students',
       [

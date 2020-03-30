@@ -1,9 +1,5 @@
 import Sequelize, { Model } from 'sequelize';
 
-interface Student extends Model {
-  associate: any;
-}
-
 class Student extends Model {
   static init(sequelize) {
     // @ts-ignore

@@ -1,15 +1,10 @@
-import express from 'express';
+import express, { Express } from 'express';
 import cors from 'cors';
 import 'express-async-errors';
 import { errors } from 'celebrate';
 import path from 'path';
 
 import routes from './routes';
-
-interface App {
-  server: any;
-  listen: any;
-}
 
 class App {
   constructor() {

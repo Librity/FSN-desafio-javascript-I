@@ -8,10 +8,6 @@ import Grades from '../app/models/Grades';
 
 const models = [Student, Courses, Grades];
 
-interface Database {
-  connection: any;
-}
-
 class Database {
   constructor() {
     this.init();

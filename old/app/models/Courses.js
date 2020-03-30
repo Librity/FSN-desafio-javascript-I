@@ -1,15 +1,12 @@
 import Sequelize, { Model } from 'sequelize';
 
-interface Grades extends Model {
-  associate: any;
-}
-
-class Grades extends Model {
+class Courses extends Model {
   static init(sequelize) {
     // @ts-ignore
     super.init(
       {
-        value: Sequelize.INTEGER,
+        name: Sequelize.STRING,
+        enrollment_date: Sequelize.DATE,
       },
       {
         sequelize,
@@ -24,4 +21,4 @@ class Grades extends Model {
   }
 }
 
-export default Grades;
+export default Courses;

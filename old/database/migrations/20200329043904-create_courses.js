@@ -1,6 +1,6 @@
 module.exports = {
-  up: (queryInterface: any, Sequelize: any) => {
-    return queryInterface.createTable('grades', {
+  up: (queryInterface, Sequelize) => {
+    return queryInterface.createTable('courses', {
       id: {
         type: Sequelize.INTEGER,
         allowNull: false,
@@ -8,8 +8,12 @@ module.exports = {
         primaryKey: true,
       },
 
-      value: {
-        type: Sequelize.INTEGER,
+      name: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
+      enrollment_date: {
+        type: Sequelize.DATE,
         allowNull: false,
       },
       student_id: {
@@ -32,7 +36,7 @@ module.exports = {
     });
   },
 
-  down: (queryInterface: any) => {
-    return queryInterface.dropTable('grades');
+  down: (queryInterface) => {
+    return queryInterface.dropTable('courses');
   },
 };
