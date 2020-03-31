@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 import 'express-async-errors';
 
-import App from './App';
+import { app } from './App';
 
-App.listen(3000);
+app.listen(3000);

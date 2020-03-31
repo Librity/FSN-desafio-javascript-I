@@ -13,12 +13,15 @@ import Youch from 'youch';
 import routes from './routes';
 
 class App {
-  public server: Express;
+  public connection: Connection | Promise<void | Connection>;
+  private server: Express;
 
   constructor() {
     this.server = express() as Express;
 
-    this.connectToDatabase().catch((error) => console.log(error));
+    this.connection = this.connectToDatabase().catch((error) =>
+      console.log(error)
+    );
 
     this.config();
     this.viewsConfig();
@@ -77,4 +80,7 @@ class App {
   }
 }
 
-export default new App();
+const app = new App();
+const connection = app.connection;
+
+export { app, connection };

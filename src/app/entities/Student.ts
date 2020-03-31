@@ -40,4 +40,34 @@ export class Student {
   @Column()
   @UpdateDateColumn()
   public updatedAt!: Date;
+
+  public addCourse(course: Course): void {
+    this.courses.push(course);
+  }
+
+  public isNotEnrolled(): boolean {
+    return this.courses.isEmpty();
+  }
+
+  public saveGrade(grade: Grade): void {
+    this.grades.push(grade);
+  }
+
+  public hasNoGrades(): boolean {
+    return this.grades.isEmpty();
+  }
+
+  public gradeAvarage(): number {
+    const gradeValues = this.grades.map((grade) => grade.value);
+
+    const sumOfGrades = gradeValues.reduce(
+      (increment, grade) => increment + grade
+    );
+
+    return sumOfGrades / this.grades.length;
+  }
+
+  public applyAbsence(): void {
+    this.absences++;
+  }
 }
