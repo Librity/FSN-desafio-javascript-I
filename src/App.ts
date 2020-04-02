@@ -1,15 +1,17 @@
+import 'dotenv/config';
+
 import { createConnection, useContainer, Connection } from 'typeorm';
 import { Container } from 'typedi';
 
-import express, { Express, Request, Response, NextFunction } from 'express';
+import express, { Express } from 'express';
 import helmet from 'helmet';
 import cors from 'cors';
 import bodyParser from 'body-parser';
 
 import { errors } from 'celebrate';
 import path from 'path';
-import Youch from 'youch';
 
+import youch from './config/youch';
 import routes from './routes';
 
 class App {
@@ -66,17 +68,7 @@ class App {
   }
 
   private exceptionHandler(): void {
-    this.server.use(
-      async (error: Error, req: Request, res: Response, next: NextFunction) => {
-        if (process.env.NODE_ENV === 'development') {
-          const errorsJson = await new Youch(error, req).toJSON();
-
-          return res.status(500).json(errorsJson);
-        }
-
-        return res.status(500).json({ error: 'Internal server error.' });
-      }
-    );
+    this.server.use(youch);
   }
 }
 
