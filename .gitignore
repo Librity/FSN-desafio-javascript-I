@@ -116,6 +116,3 @@ yarn-error.log
 
 # Typescript build directory
 ./dist
-
-# Checkpoints directory
-.ipynb_checkpoints

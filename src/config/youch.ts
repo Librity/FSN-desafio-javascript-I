@@ -1,17 +1,32 @@
 import { Request, Response, NextFunction } from 'express';
-import Youch from 'youch';
+import Youch, {} from 'youch';
 
 export default async (
-  error: Error,
+  err: Error,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   if (process.env.NODE_ENV === 'development') {
-    const errorsJson = await new Youch(error, req).toJSON();
+    const errors = await new Youch(err, req)
+      .addLink(({ message }: any) => {
+        const url = `https://stackoverflow.com/search?q=${encodeURIComponent(
+          `[express] ${message}`
+        )}`;
 
-    return res.status(500).json(errorsJson);
+        return `<a href="${url}" target="_blank" title="Search on stackoverflow"><i class="fab fa-stack-overflow"></i></a>`;
+      })
+      .addLink(({ message }: any) => {
+        const url = `https://www.google.com/search?q=${encodeURIComponent(
+          `express ${message}`
+        )}`;
+
+        return `<a href="${url}" target="_blank" title="Search on google"><i class="fab fa-google"></i></a>`;
+      })
+      .toHTML();
+
+    return res.status(500).send(errors).end();
   }
 
-  return res.status(500).json({ error: 'Internal server error.' });
+  return res.status(500).render('errors/500');
 };
